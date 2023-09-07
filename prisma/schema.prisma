@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  text      String
+  likes     Int      @default(0)
+  children  Child[]
+}
+
+model Child {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  text      String
+  likes     Int      @default(0)
+  parentId  String
+  parent    Message? @relation(fields: [parentId], references: [id])
+}
