@@ -10,12 +10,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Message {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   text      String
+//   likes     Int      @default(0)
+//   children  Child[]
+// }
+
+// model Child {
+//   id            String       @id @default(uuid())
+//   createdAt     DateTime     @default(now())
+//   text          String
+//   likes         Int          @default(0)
+//   parentId      String
+//   parent        Message?     @relation(fields: [parentId], references: [id])
+//   grandchildren GrandChild[]
+// }
+
+// model GrandChild {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   text      String
+//   likes     Int      @default(0)
+//   childId   String
+//   child     Child?   @relation(fields: [childId], references: [id])
+// }
+
+// model Message {
+//   id        String    @id @default(uuid())
+//   createdAt DateTime  @default(now())
+//   text      String
+//   parentId  String?
+//   likes     Int       @default(0)
+//   children  Message[] @relation("parentchild")
+//   parent    Message?  @relation("parentchild", fields: [parentId], references: [id])
+// }
+
 model Message {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   text      String
   likes     Int      @default(0)
-  children  Child[]
+  children  Child[] //An array of children
 }
 
 model Child {
@@ -23,6 +60,6 @@ model Child {
   createdAt DateTime @default(now())
   text      String
   likes     Int      @default(0)
-  parentId  String
-  parent    Message? @relation(fields: [parentId], references: [id])
+  parentId  String //ID of parent message
+  parent    Message? @relation(fields: [parentId], references: [id]) //reference to the parent message
 }
